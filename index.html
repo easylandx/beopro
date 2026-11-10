@@ -29,10 +29,8 @@ header a{display:inline-flex;line-height:0}
 .stage{position:relative;width:min(92vw,520px);aspect-ratio:843/1264;margin:0 auto;border-radius:22px;overflow:hidden;background:#141416;box-shadow:0 30px 60px -20px rgba(0,0,0,.85),0 8px 18px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.07);cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;pointer-events:none;-webkit-user-drag:none}
 .stage img.on{opacity:1}
-.spinwrap{position:absolute;left:31.55%;top:51.41%;width:22.55%;aspect-ratio:1;border-radius:50%;overflow:hidden;animation:spin 1.82s linear infinite;animation-play-state:paused;will-change:transform;pointer-events:none}
+.spinwrap{position:absolute;left:31.55%;top:51.41%;width:22.55%;aspect-ratio:1;border-radius:50%;overflow:hidden;will-change:transform;pointer-events:none}
 .spinwrap img{inset:0}
-.playing .spinwrap{animation-play-state:running}
-@keyframes spin{to{transform:rotate(360deg)}}
 .ctrls{position:absolute;right:4%;bottom:4%;z-index:6;display:flex;flex-direction:column;align-items:flex-end;gap:8px;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .4s ease,transform .4s ease}
 .ctrls.show{opacity:1;transform:none;pointer-events:auto}
 .btn{width:42px;height:42px;flex:none;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(14,14,17,.55);-webkit-backdrop-filter:blur(14px) saturate(1.5);backdrop-filter:blur(14px) saturate(1.5);box-shadow:0 8px 20px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.14);color:#fff;display:grid;place-items:center;padding:0;cursor:pointer;transition:transform .12s ease,background .2s}
@@ -174,6 +172,26 @@ function setLang(l){
 $('#bLang').addEventListener('click',function(e){e.stopPropagation();buzz(10);setLang(lang==='es'?'en':'es')});
 
 function buzz(n){try{if(navigator.vibrate)navigator.vibrate(n||10)}catch(e){}}
+/* ---------- disc rotation: normal, fast forward (faster), fast rewind (backwards, faster) ---------- */
+var spinEl=document.querySelector('.spinwrap'),spinA=0,spinRate=0,spinScan=0,spinBoostDir=0,spinBoostUntil=0,spinLast=0,spinRun=false,SPIN_DPS=360/1.82,SPIN_FAST=6;
+function spinTarget(ts){
+  if(spinScan)return spinScan*SPIN_FAST;
+  if(spinBoostDir&&ts<spinBoostUntil)return spinBoostDir*SPIN_FAST;
+  return playing?1:0;
+}
+function spinFrame(ts){
+  var dt=spinLast?Math.min(.1,(ts-spinLast)/1000):0;spinLast=ts;
+  var tg=spinTarget(ts);
+  spinRate+=(tg-spinRate)*Math.min(1,dt*10);
+  if(tg===0&&Math.abs(spinRate)<.01)spinRate=0;
+  spinA=(spinA+SPIN_DPS*spinRate*dt)%360;
+  if(spinEl)spinEl.style.transform='rotate('+spinA.toFixed(2)+'deg)';
+  if(spinRate===0&&tg===0){spinRun=false;spinLast=0;return}
+  requestAnimationFrame(spinFrame);
+}
+function kickSpin(){if(!spinRun){spinRun=true;spinLast=0;requestAnimationFrame(spinFrame)}}
+function spinScanTo(dir){spinScan=dir;kickSpin()}
+function spinBurst(dir){spinBoostDir=dir;spinBoostUntil=performance.now()+650;kickSpin()}
 function render(){
   stat=null;
   stage.className='stage st'+state+(playing?' playing':'');
@@ -187,6 +205,7 @@ function render(){
   el.d6.classList.toggle('on',s4);
   ctrls.classList.toggle('show',state>=3);
   $('#search').classList.toggle('show',state>=3);
+  kickSpin();
   if(state<3){trackEl.textContent=t('h'+state);subEl.textContent='';}
   else{
     if(loading)trackEl.textContent=t('loading');
@@ -425,19 +444,19 @@ function seekBy(d){
 }
 function seekBtn(id,dir){
   var b=$('#'+id),hold=0,rep=0,held=false;
-  function end(){clearTimeout(hold);clearInterval(rep);hold=rep=0}
+  function end(){clearTimeout(hold);clearInterval(rep);hold=rep=0;spinScanTo(0)}
   b.addEventListener('pointerdown',function(e){
     if(e.button>0)return;
     unlock();held=false;end();buzz(8);
-    hold=setTimeout(function(){held=true;seekBy(dir*4);rep=setInterval(function(){seekBy(dir*4)},150)},400);
+    hold=setTimeout(function(){held=true;if(current&&isReal())spinScanTo(dir);seekBy(dir*4);rep=setInterval(function(){seekBy(dir*4)},150)},400);
   });
   ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
     b.addEventListener(ev,function(){
       var was=hold;end();
-      if(ev==='pointerup'&&was&&!held)seekBy(dir*10);
+      if(ev==='pointerup'&&was&&!held){if(current&&isReal())spinBurst(dir);seekBy(dir*10)}
     });
   });
-  b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();seekBy(dir*10)}});
+  b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();if(current&&isReal())spinBurst(dir);seekBy(dir*10)}});
   b.addEventListener('contextmenu',function(e){e.preventDefault()});
 }
 seekBtn('bRew',-1);seekBtn('bFwd',1);

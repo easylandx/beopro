@@ -3,10 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#08080a">
+<meta name="theme-color" content="#111111">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BeoPro">
+<meta name="application-name" content="BeoPro">
+<meta name="description" content="Classic disc turntable player. Spin vinyl, control the tonearm, enjoy pure analog vibes.">
+<link rel="manifest" href="beopro.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>BeoPro</title>
 <script>if(/[?&]a=/.test(location.search))document.documentElement.className="boot"</script>
 <style>
@@ -84,6 +90,11 @@ header a{display:inline-flex;line-height:0}
 html.boot .stage{opacity:0}
 html.boot .stage img,html.boot .ctrls{transition:none!important}
 @media (prefers-reduced-motion:reduce){.stage img,.ctrls,#sheet{transition:none}}
+.inst{display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#cfcdc7;font:inherit;font-size:11px;font-weight:600;letter-spacing:.1em;cursor:pointer;-webkit-user-select:none;user-select:none;white-space:nowrap}
+.inst[hidden]{display:none}
+.inst:active{background:rgba(255,255,255,.16)}
+#iosHint{margin:8px auto 0;max-width:min(88vw,360px);font-size:11.5px;line-height:1.4;letter-spacing:.03em;color:#8b8a86;cursor:pointer}
+#iosHint[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -91,6 +102,7 @@ html.boot .stage img,html.boot .ctrls{transition:none!important}
   <div class="hrow">
   <a class="ttl" id="bTitle" href="https://easylandx.github.io/beopro/" aria-label="BeoPro">Beo<b>Pro</b></a>
   <a href="https://easylandx.github.io" target="_blank" rel="noopener" aria-label="EasyLandX"><img class="logo" src="data:image/jpeg;base64,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" alt="EasyLandX"></a>
+  <button class="inst" id="bInst" type="button" hidden>Install App</button>
   </div>
   <button class="lang" id="bLang" type="button" role="switch" aria-checked="false" aria-label="Español / English"><span class="opt" data-l="es"><svg viewBox="0 0 750 500" aria-hidden="true"><rect width="750" height="500" fill="#AA151B"/><rect y="125" width="750" height="250" fill="#F1BF00"/></svg>ES</span><span class="opt" data-l="en"><svg viewBox="0 0 60 30" aria-hidden="true"><clipPath id="ukS"><path d="M0,0v30h60V0z"/></clipPath><clipPath id="ukT"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><g clip-path="url(#ukS)"><path d="M0,0v30h60V0z" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#ukT)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g></svg>EN</span></button>
 </header>
@@ -122,7 +134,7 @@ html.boot .stage img,html.boot .ctrls{transition:none!important}
   </div>
 </div>
 
-<div class="info"><div id="track">Tap the box to unpack</div><div id="sub"></div></div>
+<div class="info"><div id="track">Tap the box to unpack</div><div id="sub"></div><div id="iosHint" hidden></div></div>
 
 <div class="search" id="search">
   <form id="sForm" autocomplete="off"><input id="q" type="search" placeholder="Search any track…" enterkeyhint="search" aria-label="Search tracks" autocapitalize="off" spellcheck="false"><button id="sBtn" type="submit" aria-label="Search" data-tip="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button><button id="bWa" type="button" class="off" aria-label="Share on WhatsApp" data-tip="Share on WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button></form>
@@ -146,8 +158,8 @@ var audio=new Audio();audio.preload='none';
 var SILENT='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
 
 var I18N={
-en:{h0:'Tap the box to unpack',h1:'Tap to lift the turntable lid',h2:'Tap to place the record',loading:'Loading track…',idle:'Press play or choose a genre',search:'Search',shared:'Shared link',tapPlay:'Tap to play',loadFail:'Could not load a track. Check your connection.',searching:'Searching…',searchingFor:'Searching “{0}”…',none:'No tracks found. Try other words.',sFail:'Search failed. Check your connection.',playFirst:'Play a song first',copied:'Image copied. In WhatsApp Web press {0} to paste it',copyFail:'Could not copy the image to the clipboard',share:'Listen on BeoPro easylandx.github.io/beopro',rew:'Rewind',fwd:'Fast forward',rewA:'Rewind (tap 10s, hold to scan)',fwdA:'Fast forward (tap 10s, hold to scan)',prev:'Previous track',play:'Play',stop:'Stop',next:'Next track',album:'Next album',open:'Open track in new tab',genre:'Choose genre',searchB:'Search',searchPh:'Search any track…',searchA:'Search tracks',wa:'Share on WhatsApp',sheet:'Genre'},
-es:{h0:'Toca la caja para abrirla',h1:'Toca para levantar la tapa del tocadiscos',h2:'Toca para colocar el disco',loading:'Cargando pista…',idle:'Pulsa play o elige un género',search:'Búsqueda',shared:'Enlace compartido',tapPlay:'Toca para reproducir',loadFail:'No se pudo cargar una pista. Comprueba tu conexión.',searching:'Buscando…',searchingFor:'Buscando “{0}”…',none:'No se encontraron pistas. Prueba con otras palabras.',sFail:'La búsqueda falló. Comprueba tu conexión.',playFirst:'Reproduce una canción primero',copied:'Imagen copiada. En WhatsApp Web pulsa {0} para pegarla',copyFail:'No se pudo copiar la imagen al portapapeles',share:'Escucha en BeoPro easylandx.github.io/beopro',rew:'Rebobinar',fwd:'Avance rápido',rewA:'Rebobinar (toca: 10 s, mantén: explorar)',fwdA:'Avance rápido (toca: 10 s, mantén: explorar)',prev:'Pista anterior',play:'Reproducir',stop:'Detener',next:'Pista siguiente',album:'Álbum siguiente',open:'Abrir pista en una pestaña nueva',genre:'Elegir género',searchB:'Buscar',searchPh:'Buscar cualquier pista…',searchA:'Buscar pistas',wa:'Compartir en WhatsApp',sheet:'Género'}
+en:{h0:'Tap the box to unpack',h1:'Tap to lift the turntable lid',h2:'Tap to place the record',loading:'Loading track…',idle:'Press play or choose a genre',search:'Search',shared:'Shared link',tapPlay:'Tap to play',loadFail:'Could not load a track. Check your connection.',searching:'Searching…',searchingFor:'Searching “{0}”…',none:'No tracks found. Try other words.',sFail:'Search failed. Check your connection.',playFirst:'Play a song first',copied:'Image copied. In WhatsApp Web press {0} to paste it',copyFail:'Could not copy the image to the clipboard',share:'Listen on BeoPro easylandx.github.io/beopro',rew:'Rewind',fwd:'Fast forward',rewA:'Rewind (tap 10s, hold to scan)',fwdA:'Fast forward (tap 10s, hold to scan)',prev:'Previous track',play:'Play',stop:'Stop',next:'Next track',album:'Next album',open:'Open track in new tab',genre:'Choose genre',searchB:'Search',searchPh:'Search any track…',searchA:'Search tracks',wa:'Share on WhatsApp',sheet:'Genre',inst:'Install App',instA:'Install BeoPro as an app',ios:'To install: tap Share → “Add to Home Screen”'},
+es:{h0:'Toca la caja para abrirla',h1:'Toca para levantar la tapa del tocadiscos',h2:'Toca para colocar el disco',loading:'Cargando pista…',idle:'Pulsa play o elige un género',search:'Búsqueda',shared:'Enlace compartido',tapPlay:'Toca para reproducir',loadFail:'No se pudo cargar una pista. Comprueba tu conexión.',searching:'Buscando…',searchingFor:'Buscando “{0}”…',none:'No se encontraron pistas. Prueba con otras palabras.',sFail:'La búsqueda falló. Comprueba tu conexión.',playFirst:'Reproduce una canción primero',copied:'Imagen copiada. En WhatsApp Web pulsa {0} para pegarla',copyFail:'No se pudo copiar la imagen al portapapeles',share:'Escucha en BeoPro easylandx.github.io/beopro',rew:'Rebobinar',fwd:'Avance rápido',rewA:'Rebobinar (toca: 10 s, mantén: explorar)',fwdA:'Avance rápido (toca: 10 s, mantén: explorar)',prev:'Pista anterior',play:'Reproducir',stop:'Detener',next:'Pista siguiente',album:'Álbum siguiente',open:'Abrir pista en una pestaña nueva',genre:'Elegir género',searchB:'Buscar',searchPh:'Buscar cualquier pista…',searchA:'Buscar pistas',wa:'Compartir en WhatsApp',sheet:'Género',inst:'Instalar app',instA:'Instalar BeoPro como aplicación',ios:'Para instalar: toca Compartir → “Añadir a pantalla de inicio”'}
 };
 var GENRE_ES={"Rock":"Rock","Alternative & Indie":"Alternativa e Indie","Punk & Metal":"Punk y Metal","Electronic & Dance":"Electrónica y Dance","Ambient & Drone":"Ambient y Drone","Techno & House":"Techno y House","Hip-Hop & Rap":"Hip-Hop y Rap","R&B":"R&B","Soul & Funk":"Soul y Funk","Disco":"Disco","Pop":"Pop","Jazz":"Jazz","Blues":"Blues","Ragtime & Swing":"Ragtime y Swing","Folk":"Folk","Country & Western":"Country y Western","Bluegrass & Americana":"Bluegrass y Americana","Classical":"Clásica","Opera & Choral":"Ópera y Coral","World & International":"Música del mundo","Latin":"Latina","Reggae & Dub":"Reggae y Dub","Soundtracks & Video Game Music":"Bandas sonoras y videojuegos","Broadway & Musicals":"Broadway y Musicales","Experimental & Avant-Garde":"Experimental y Vanguardia","Noise & Industrial":"Noise e Industrial","Gospel & Religious":"Gospel y Religiosa","Holiday & Christmas":"Fiestas y Navidad","Children's Music":"Música infantil","Comedy & Cabaret":"Comedia y Cabaret"};
 var lang='';try{lang=localStorage.getItem('beopro.lang')||''}catch(e){}
@@ -165,6 +177,7 @@ function applyLang(){
   [].forEach.call(list.children,function(b){b.textContent=gl(b.dataset.g)});
   [].forEach.call($('#bLang').querySelectorAll('.opt'),function(o){o.classList.toggle('on',o.dataset.l===lang)});
   $('#bLang').setAttribute('aria-checked',lang==='en'?'true':'false');
+  pwaText();
 }
 function setLang(l){
   lang=l;try{localStorage.setItem('beopro.lang',l)}catch(e){}
@@ -668,6 +681,24 @@ $('#bTitle').addEventListener('click',function(e){
   try{audio.pause()}catch(x){}
   location.href='https://easylandx.github.io/beopro/';   /* full reload on the clean home URL */
 });
+/* ---------- PWA: service worker, install button, iOS hint ---------- */
+var instBtn=$('#bInst'),hintEl=$('#iosHint'),deferredPrompt=null;
+var IS_IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+function isStandalone(){return (window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true}
+function pwaText(){instBtn.textContent=t('inst');instBtn.setAttribute('aria-label',t('instA'));hintEl.textContent=t('ios')}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;if(!isStandalone())instBtn.hidden=false});
+instBtn.addEventListener('click',function(e){
+  e.stopPropagation();buzz(10);
+  if(!deferredPrompt)return;
+  var p=deferredPrompt;deferredPrompt=null;instBtn.hidden=true;
+  try{p.prompt();if(p.userChoice&&p.userChoice.catch)p.userChoice.catch(function(){})}catch(x){}
+});
+window.addEventListener('appinstalled',function(){deferredPrompt=null;instBtn.hidden=true;hintEl.hidden=true});
+var iosSeen=false;try{iosSeen=localStorage.getItem('beopro.iosHint')==='1'}catch(e){}
+if(IS_IOS&&!isStandalone()&&!iosSeen)hintEl.hidden=false;
+hintEl.addEventListener('click',function(){hintEl.hidden=true;try{localStorage.setItem('beopro.iosHint','1')}catch(e){}});
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./beopro-sw.js').catch(function(){})})}
+
 applyLang();
 render();
 autoScroll(false);

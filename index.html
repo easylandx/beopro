@@ -191,7 +191,16 @@ function makeTrack(doc,list,idx,search){
   var title=f.title||(list.length>1?nm:(doc.title||nm));
   return {url:f.url,title:String(title),creator:cr?String(cr):'',search:!!search,doc:doc,list:list,idx:idx};
 }
-function trackFromDoc(doc,first,start0){
+function bestTrack(list,qw){
+  var best=0,bs=0;
+  list.forEach(function(f,i){
+    var h=' '+noAcc(String(f.title||'')+' '+f.name.split('/').pop().replace(/\.mp3$/i,'')).replace(/[^\p{L}\p{N}]+/gu,' ')+' ',s=0;
+    qw.forEach(function(w){if(h.indexOf(' '+w)>=0)s++});
+    if(s>bs){bs=s;best=i}
+  });
+  return best;
+}
+function trackFromDoc(doc,first,start0,qw){
   return fetchJSON('https://archive.org/metadata/'+encodeURIComponent(doc.identifier)).then(function(m){
     if(!doc.title&&m.metadata){var md=m.metadata;doc={identifier:doc.identifier,title:Array.isArray(md.title)?md.title[0]:md.title,creator:md.creator}}
     var seen={},files=(m.files||[]).filter(function(f){return /mp3/i.test(f.format||'')&&(+f.size||0)<40e6&&!/sample/i.test(f.name)});
@@ -204,20 +213,49 @@ function trackFromDoc(doc,first,start0){
     var list=files.map(function(f){
       return {name:f.name,title:f.title,url:'https://archive.org/download/'+encodeURIComponent(doc.identifier)+'/'+f.name.split('/').map(encodeURIComponent).join('/')};
     });
-    var si=typeof start0==='number'?Math.min(Math.max(0,start0),list.length-1):(first||start0)?0:Math.floor(Math.random()*list.length);
+    var si=typeof start0==='number'?Math.min(Math.max(0,start0),list.length-1):(first||start0)?(qw&&qw.length?bestTrack(list,qw):0):Math.floor(Math.random()*list.length);
     return makeTrack(doc,list,si,first);
   });
 }
+var SQ_STOP={and:1,or:1,not:1,no:1,nr:1,num:1,n:1,op:1,the:1,of:1,de:1,del:1,la:1,el:1,los:1,las:1,y:1,en:1,a:1,"in":1,to:1,por:1,para:1,con:1,un:1,una:1};
+function qWords(text){
+  return text.replace(/[^\p{L}\p{N}\s'-]/gu,' ').trim().split(/\s+/).map(function(w){return w.replace(/^[-']+|[-']+$/g,'')}).filter(Boolean);
+}
+function keyWords(text){
+  var all=qWords(text),k=all.filter(function(w){return !SQ_STOP[noAcc(w)]});
+  return k.length?k:all.filter(function(w){return !/^(and|or|not)$/i.test(w)});
+}
+function relScore(d,qs){
+  var c=d.creator,t=d.title;if(Array.isArray(c))c=c.join(' ');if(Array.isArray(t))t=t.join(' ');
+  var h=' '+noAcc(String(t||'')+' '+String(c||'')).replace(/[^\p{L}\p{N}]+/gu,' ')+' ',best=0;
+  qs.forEach(function(ws){var s=0;ws.forEach(function(w){if(h.indexOf(' '+noAcc(w))>=0)s++});if(s>best)best=s});
+  return best;
+}
+function rankDocs(docs,qs){
+  var seen={},out=[];
+  docs.forEach(function(d){if(d&&d.identifier&&!seen[d.identifier]){seen[d.identifier]=1;d._s=relScore(d,qs);out.push(d)}});
+  out.sort(function(x,y){return y._s-x._s});
+  return out.slice(0,40);
+}
+function aSearch(q,rows){
+  var p=new URLSearchParams();p.set('q',q);p.append('fl[]','identifier');p.append('fl[]','title');p.append('fl[]','creator');
+  p.append('sort[]','downloads desc');p.set('rows',String(rows));p.set('page','1');p.set('output','json');
+  return fetchJSON('https://archive.org/advancedsearch.php?'+p.toString()).then(function(r){return (r.response&&r.response.docs)||[]});
+}
+/* precise search: exact title phrase > each word in title/creator/subject > each word anywhere > any word;
+   results are re-ranked by how many query words appear in the item's title/creator */
 function searchArchive(text){
-  var words=text.replace(/[^\p{L}\p{N}\s'-]/gu,' ').trim().split(/\s+/).filter(Boolean);
-  if(!words.length)return Promise.resolve([]);
-  function run(op){
-    var q='mediatype:(audio) AND format:(MP3) AND ('+words.join(' '+op+' ')+')';
-    var p=new URLSearchParams();p.set('q',q);p.append('fl[]','identifier');p.append('fl[]','title');p.append('fl[]','creator');
-    p.append('sort[]','downloads desc');p.set('rows','30');p.set('page','1');p.set('output','json');
-    return fetchJSON('https://archive.org/advancedsearch.php?'+p.toString()).then(function(r){return (r.response&&r.response.docs)||[]});
-  }
-  return run('AND').then(function(d){return d.length||words.length<2?d:run('OR')});
+  var key=keyWords(text);if(!key.length)return Promise.resolve([]);
+  var base='mediatype:(audio) AND format:(MP3) AND ',qs=[];
+  if(key.length>1)qs.push(base+'title:("'+key.join(' ')+'")');
+  qs.push(base+key.map(function(w){return '(title:('+w+') OR creator:('+w+') OR subject:('+w+'))'}).join(' AND '));
+  qs.push(base+'('+key.join(' AND ')+')');
+  return Promise.all(qs.map(function(q){return aSearch(q,40).catch(function(){return null})})).then(function(rs){
+    if(rs.every(function(r){return r===null}))throw new Error('net');
+    var docs=[].concat.apply([],rs.map(function(r){return r||[]}));
+    if(docs.length||key.length<2)return docs;
+    return aSearch(base+'('+key.join(' OR ')+')',40);
+  }).then(function(docs){return rankDocs(docs,[key])});
 }
 function pickTrack(g,avoidId,start0){
   var q='mediatype:(audio) AND subject:('+GENRES[g]+') AND format:(MP3)';
@@ -285,10 +323,10 @@ function nextTrack(){
   if(current&&current.list&&current.idx+1<current.list.length){var nt=makeTrack(current.doc,current.list,current.idx+1,current.search);nt.shared=current.shared;playRandom(nt)}
   else playRandom();
 }
-var searchDocs=[],searchIdx=0;
+var searchDocs=[],searchIdx=0,searchQW=[];
 function albumFrom(docs,i,tries){
   var n=docs.length;
-  return trackFromDoc(docs[i%n],false,true).then(function(t){searchIdx=i%n;t.search=true;return t}).catch(function(err){
+  return trackFromDoc(docs[i%n],false,true,searchQW).then(function(t){searchIdx=i%n;t.search=true;return t}).catch(function(err){
     if(tries+1<Math.min(n,6))return albumFrom(docs,i+1,tries+1);
     throw err;
   });
@@ -417,9 +455,9 @@ function toEnglish(text){
     })
     .catch(function(){clearTimeout(timer);return dictTranslate(text)});
 }
-function firstPlayable(docs,i){
-  return trackFromDoc(docs[i],true).catch(function(err){
-    if(i+1<docs.length&&i<7)return firstPlayable(docs,i+1);
+function firstPlayable(docs,i,qw){
+  return trackFromDoc(docs[i],true,undefined,qw).catch(function(err){
+    if(i+1<docs.length&&i<7)return firstPlayable(docs,i+1,qw);
     throw err;
   });
 }
@@ -428,17 +466,26 @@ $('#sForm').addEventListener('submit',function(e){
   var text=qEl.value.trim();if(!text)return;
   unlock();buzz(10);qEl.blur();var my=++sTok;
   setStatus('searching');subEl.textContent='';
+  /* search exactly what was typed (names, titles) and, in parallel, its English translation */
+  var pOrig=searchArchive(text).then(function(d){return {d:d}},function(){return {err:1}});
   toEnglish(text).then(function(en){
-    if(my!==sTok)return [];
-    setStatus('searchingFor',en);
-    return searchArchive(en).then(function(d){
-      return d.length||noAcc(en)===noAcc(text)?d:searchArchive(text);
+    if(my!==sTok)return null;
+    var same=noAcc(en)===noAcc(text);
+    if(!same)setStatus('searchingFor',en);
+    var pEn=same?Promise.resolve(null):searchArchive(en).then(function(d){return {d:d}},function(){return {err:1}});
+    return Promise.all([pOrig,pEn]).then(function(r){
+      if(my!==sTok)return null;
+      var a=r[0],b=r[1];
+      if(a.err&&(!b||b.err))throw new Error('net');
+      var qs=[keyWords(text)];if(!same)qs.push(keyWords(en));
+      return {docs:rankDocs([].concat(a.d||[],(b&&b.d)||[]),qs),qs:qs};
     });
-  }).then(function(docs){
-    if(my!==sTok)return;
-    if(!docs.length){setStatus('none');return}
-    discTaps=1;searchDocs=docs;searchIdx=0;
-    playRandom(firstPlayable(docs,0));
+  }).then(function(res){
+    if(!res||my!==sTok)return;
+    if(!res.docs.length){setStatus('none');return}
+    var qw=[];res.qs.forEach(function(ws){ws.forEach(function(w){var n=noAcc(w);if(qw.indexOf(n)<0)qw.push(n)})});
+    discTaps=1;searchDocs=res.docs;searchIdx=0;searchQW=qw;
+    playRandom(firstPlayable(res.docs,0,qw));
   }).catch(function(){if(my===sTok)setStatus('sFail')});
 });
 

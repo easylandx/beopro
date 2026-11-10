@@ -48,6 +48,23 @@ header a{display:inline-flex;line-height:0}
 .info{width:min(92vw,520px);margin:18px auto 0;text-align:center;min-height:56px}
 #track{font-size:16px;font-weight:400;letter-spacing:.02em;color:#f1efe9;line-height:1.35;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 #sub{margin-top:6px;font-size:12.5px;color:#8b8a86;letter-spacing:.06em;min-height:16px}
+#meta{margin-top:0;margin-left:auto;margin-right:auto;padding-top:8px;padding-bottom:8px;padding-left:14px;padding-right:14px;text-align:left;border-radius:14px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04)}
+#meta[hidden]{display:none}
+.mline .mt{font-variant-numeric:tabular-nums}
+.mline{display:flex;flex-wrap:nowrap;white-space:nowrap;overflow:hidden;column-gap:6px;row-gap:0;padding-top:2px;padding-bottom:2px;font-size:12px;line-height:1.4;color:#d8d6d0}
+.mline span{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.mline span.mt,.mline span.mk{flex:none}
+.mline span.ma{flex-shrink:3}
+.mline span+span::before{content:"· ";color:#8b8a86}
+.mline span[hidden]{display:none}
+.mbar{height:3px;border-radius:2px;background:rgba(255,255,255,.12);overflow:hidden;margin-bottom:5px}
+.mbar i{display:block;height:100%;width:0;background:#e8e4da}
+.mrow{display:flex;gap:10px;padding-top:2px;padding-bottom:2px;font-size:12px;line-height:1.35}
+.mrow b{flex:none;width:56px;font-weight:500;letter-spacing:.06em;color:#8b8a86}
+.mrow span{flex:1;min-width:0;color:#d8d6d0;overflow-wrap:anywhere}
+#mDesc{margin-top:8px;margin-bottom:0;margin-left:0;margin-right:0;padding-left:0;padding-right:0;font-size:12px;line-height:1.5;color:#a9a8a3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+#mDesc.open{display:block}
+#mSrc{display:inline;color:#cfcdc7;text-decoration:underline}
 #scrim{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .3s}
 #scrim.show{opacity:1;pointer-events:auto}
 #sheet{position:fixed;left:0;right:0;bottom:0;z-index:31;max-width:560px;margin:0 auto;max-height:72svh;display:flex;flex-direction:column;background:rgba(18,18,21,.92);-webkit-backdrop-filter:blur(26px) saturate(1.4);backdrop-filter:blur(26px) saturate(1.4);border:1px solid rgba(255,255,255,.09);border-bottom:0;border-radius:26px 26px 0 0;box-shadow:0 -20px 50px rgba(0,0,0,.6);transform:translateY(105%);transition:transform .38s cubic-bezier(.2,.8,.2,1);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -134,7 +151,7 @@ html.boot .stage img,html.boot .ctrls{transition:none!important}
   </div>
 </div>
 
-<div class="info"><div id="track">Tap the box to unpack</div><div id="sub"></div><div id="iosHint" hidden></div></div>
+<div class="info"><div id="track">Tap the box to unpack</div><div id="sub"></div><div id="meta" hidden></div><div id="iosHint" hidden></div></div>
 
 <div class="search" id="search">
   <form id="sForm" autocomplete="off"><input id="q" type="search" placeholder="Search any track…" enterkeyhint="search" aria-label="Search tracks" autocapitalize="off" spellcheck="false"><button id="sBtn" type="submit" aria-label="Search" data-tip="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button><button id="bWa" type="button" class="off" aria-label="Share on WhatsApp" data-tip="Share on WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button></form>
@@ -148,7 +165,7 @@ html.boot .stage img,html.boot .ctrls{transition:none!important}
 (function(){
 "use strict";
 var $=function(s){return document.querySelector(s)};
-var stage=$('#stage'),trackEl=$('#track'),subEl=$('#sub'),ctrls=$('#ctrls');
+var stage=$('#stage'),trackEl=$('#track'),subEl=$('#sub'),metaEl=$('#meta'),ctrls=$('#ctrls');
 var el={i1:$('#i1'),i2:$('#i2'),i3:$('#i3'),i5:$('#i5'),i6:$('#i6'),d5:$('#d5'),d6:$('#d6')};
 var GENRES={
 "Rock":"rock","Alternative & Indie":"alternative OR indie","Punk & Metal":"punk OR metal","Electronic & Dance":"electronic OR dance","Ambient & Drone":"ambient OR drone","Techno & House":"techno OR house","Hip-Hop & Rap":"hiphop OR \"hip hop\" OR rap","R&B":"rnb OR \"rhythm and blues\"","Soul & Funk":"soul OR funk","Disco":"disco","Pop":"pop","Jazz":"jazz","Blues":"blues","Ragtime & Swing":"ragtime OR swing","Folk":"folk","Country & Western":"country OR western","Bluegrass & Americana":"bluegrass OR americana","Classical":"classical","Opera & Choral":"opera OR choral OR choir","World & International":"world OR international","Latin":"latin","Reggae & Dub":"reggae OR dub","Soundtracks & Video Game Music":"soundtrack OR \"video game\" OR chiptune","Broadway & Musicals":"broadway OR musical","Experimental & Avant-Garde":"experimental OR avant-garde","Noise & Industrial":"noise OR industrial","Gospel & Religious":"gospel OR religious","Holiday & Christmas":"christmas OR holiday","Children's Music":"children OR kids","Comedy & Cabaret":"comedy OR cabaret"
@@ -158,8 +175,8 @@ var audio=new Audio();audio.preload='none';
 var SILENT='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
 
 var I18N={
-en:{h0:'Tap the box to unpack',h1:'Tap to lift the turntable lid',h2:'Tap to place the record',loading:'Loading track…',idle:'Press play or choose a genre',search:'Search',shared:'Shared link',tapPlay:'Tap to play',loadFail:'Could not load a track. Check your connection.',searching:'Searching…',searchingFor:'Searching “{0}”…',none:'No tracks found. Try other words.',sFail:'Search failed. Check your connection.',playFirst:'Play a song first',copied:'Image copied. In WhatsApp Web press {0} to paste it',copyFail:'Could not copy the image to the clipboard',share:'Listen on BeoPro easylandx.github.io/beopro',rew:'Rewind',fwd:'Fast forward',rewA:'Rewind (tap 10s, hold to scan)',fwdA:'Fast forward (tap 10s, hold to scan)',prev:'Previous track',play:'Play',stop:'Stop',next:'Next track',album:'Next album',open:'Open track in new tab',genre:'Choose genre',searchB:'Search',searchPh:'Search any track…',searchA:'Search tracks',wa:'Share on WhatsApp',sheet:'Genre',inst:'Install App',instA:'Install BeoPro as an app',ios:'To install: tap Share → “Add to Home Screen”'},
-es:{h0:'Toca la caja para abrirla',h1:'Toca para levantar la tapa del tocadiscos',h2:'Toca para colocar el disco',loading:'Cargando pista…',idle:'Pulsa play o elige un género',search:'Búsqueda',shared:'Enlace compartido',tapPlay:'Toca para reproducir',loadFail:'No se pudo cargar una pista. Comprueba tu conexión.',searching:'Buscando…',searchingFor:'Buscando “{0}”…',none:'No se encontraron pistas. Prueba con otras palabras.',sFail:'La búsqueda falló. Comprueba tu conexión.',playFirst:'Reproduce una canción primero',copied:'Imagen copiada. En WhatsApp Web pulsa {0} para pegarla',copyFail:'No se pudo copiar la imagen al portapapeles',share:'Escucha en BeoPro easylandx.github.io/beopro',rew:'Rebobinar',fwd:'Avance rápido',rewA:'Rebobinar (toca: 10 s, mantén: explorar)',fwdA:'Avance rápido (toca: 10 s, mantén: explorar)',prev:'Pista anterior',play:'Reproducir',stop:'Detener',next:'Pista siguiente',album:'Álbum siguiente',open:'Abrir pista en una pestaña nueva',genre:'Elegir género',searchB:'Buscar',searchPh:'Buscar cualquier pista…',searchA:'Buscar pistas',wa:'Compartir en WhatsApp',sheet:'Género',inst:'Instalar app',instA:'Instalar BeoPro como aplicación',ios:'Para instalar: toca Compartir → “Añadir a pantalla de inicio”'}
+en:{mArtist:'Artist',mAlbum:'Album',mTrack:'Track',mOf:'of',mYear:'Year',mTime:'Time',mQuality:'Quality',mTags:'Tags',mLabel:'Label',mLicense:'License',mPlays:'Plays',mPD:'Public domain',mSrc:'View on Internet Archive',h0:'Tap the box to unpack',h1:'Tap to lift the turntable lid',h2:'Tap to place the record',loading:'Loading track…',idle:'Press play or choose a genre',search:'Search',shared:'Shared link',tapPlay:'Tap to play',loadFail:'Could not load a track. Check your connection.',searching:'Searching…',searchingFor:'Searching “{0}”…',none:'No tracks found. Try other words.',sFail:'Search failed. Check your connection.',playFirst:'Play a song first',copied:'Image copied. In WhatsApp Web press {0} to paste it',copyFail:'Could not copy the image to the clipboard',share:'Listen on BeoPro easylandx.github.io/beopro',rew:'Rewind',fwd:'Fast forward',rewA:'Rewind (tap 10s, hold to scan)',fwdA:'Fast forward (tap 10s, hold to scan)',prev:'Previous track',play:'Play',stop:'Stop',next:'Next track',album:'Next album',open:'Open track in new tab',genre:'Choose genre',searchB:'Search',searchPh:'Search any track…',searchA:'Search tracks',wa:'Share on WhatsApp',sheet:'Genre',inst:'Install App',instA:'Install BeoPro as an app',ios:'To install: tap Share → “Add to Home Screen”'},
+es:{mArtist:'Artista',mAlbum:'Álbum',mTrack:'Pista',mOf:'de',mYear:'Año',mTime:'Tiempo',mQuality:'Calidad',mTags:'Etiquetas',mLabel:'Sello',mLicense:'Licencia',mPlays:'Reproducciones',mPD:'Dominio público',mSrc:'Ver en Internet Archive',h0:'Toca la caja para abrirla',h1:'Toca para levantar la tapa del tocadiscos',h2:'Toca para colocar el disco',loading:'Cargando pista…',idle:'Pulsa play o elige un género',search:'Búsqueda',shared:'Enlace compartido',tapPlay:'Toca para reproducir',loadFail:'No se pudo cargar una pista. Comprueba tu conexión.',searching:'Buscando…',searchingFor:'Buscando “{0}”…',none:'No se encontraron pistas. Prueba con otras palabras.',sFail:'La búsqueda falló. Comprueba tu conexión.',playFirst:'Reproduce una canción primero',copied:'Imagen copiada. En WhatsApp Web pulsa {0} para pegarla',copyFail:'No se pudo copiar la imagen al portapapeles',share:'Escucha en BeoPro easylandx.github.io/beopro',rew:'Rebobinar',fwd:'Avance rápido',rewA:'Rebobinar (toca: 10 s, mantén: explorar)',fwdA:'Avance rápido (toca: 10 s, mantén: explorar)',prev:'Pista anterior',play:'Reproducir',stop:'Detener',next:'Pista siguiente',album:'Álbum siguiente',open:'Abrir pista en una pestaña nueva',genre:'Elegir género',searchB:'Buscar',searchPh:'Buscar cualquier pista…',searchA:'Buscar pistas',wa:'Compartir en WhatsApp',sheet:'Género',inst:'Instalar app',instA:'Instalar BeoPro como aplicación',ios:'Para instalar: toca Compartir → “Añadir a pantalla de inicio”'}
 };
 var GENRE_ES={"Rock":"Rock","Alternative & Indie":"Alternativa e Indie","Punk & Metal":"Punk y Metal","Electronic & Dance":"Electrónica y Dance","Ambient & Drone":"Ambient y Drone","Techno & House":"Techno y House","Hip-Hop & Rap":"Hip-Hop y Rap","R&B":"R&B","Soul & Funk":"Soul y Funk","Disco":"Disco","Pop":"Pop","Jazz":"Jazz","Blues":"Blues","Ragtime & Swing":"Ragtime y Swing","Folk":"Folk","Country & Western":"Country y Western","Bluegrass & Americana":"Bluegrass y Americana","Classical":"Clásica","Opera & Choral":"Ópera y Coral","World & International":"Música del mundo","Latin":"Latina","Reggae & Dub":"Reggae y Dub","Soundtracks & Video Game Music":"Bandas sonoras y videojuegos","Broadway & Musicals":"Broadway y Musicales","Experimental & Avant-Garde":"Experimental y Vanguardia","Noise & Industrial":"Noise e Industrial","Gospel & Religious":"Gospel y Religiosa","Holiday & Christmas":"Fiestas y Navidad","Children's Music":"Música infantil","Comedy & Cabaret":"Comedia y Cabaret"};
 var lang='';try{lang=localStorage.getItem('beopro.lang')||''}catch(e){}
@@ -167,7 +184,7 @@ if(lang!=='es'&&lang!=='en')lang=/^es/i.test(navigator.language||'')?'es':'en';
 function t(k,a){var s=I18N[lang][k];return a===undefined?s:s.replace('{0}',a)}
 function gl(g){return lang==='es'&&GENRE_ES[g]||g}
 var stat=null;
-function setStatus(k,a){stat={k:k,a:a};trackEl.textContent=t(k,a)}
+function setStatus(k,a){stat={k:k,a:a};trackEl.textContent=t(k,a);trackEl.style.display='';subEl.style.display='';metaEl.hidden=true}
 var TIPS={bRew:['rew','rewA'],bFwd:['fwd','fwdA'],bPrev:['prev','prev'],bPlay:['play','play'],bStop:['stop','stop'],bNext:['next','next'],bAlbum:['album','album'],bOpen:['open','open'],bGenre:['genre','genre'],sBtn:['searchB','searchB'],bWa:['wa','wa']};
 function applyLang(){
   document.documentElement.lang=lang;
@@ -245,6 +262,52 @@ function render(){
     else trackEl.textContent=t('idle');
     subEl.textContent=(current&&!loading&&current.creator?current.creator+' · ':'')+(pendingPlay&&current&&!loading?t('tapPlay'):(current&&current.search?t('search'):(current&&current.shared?t('shared'):gl(genre))));
   }
+  renderMeta();
+}
+
+/* ---------- track details panel ---------- */
+var metaTime=null,metaBar=null;
+function fmtT(x){if(!isFinite(x)||x<0)x=0;x=Math.floor(x);var h=Math.floor(x/3600),m=Math.floor(x%3600/60),c=x%60;return (h?h+':'+(m<10?'0':''):'')+m+':'+(c<10?'0':'')+c}
+function totalDur(){var d=audio.duration;if(isFinite(d)&&d>0&&isReal())return d;var f=current&&current.list&&current.list[current.idx];return f&&f.length>0?f.length:0}
+function tickMeta(){
+  if(!metaTime||!current)return;
+  var cur=isReal()?audio.currentTime:0,tot=totalDur();
+  metaTime.textContent=fmtT(cur)+(tot?' / '+fmtT(tot):'');
+  if(metaBar)metaBar.style.width=(tot?Math.min(100,cur/tot*100):0)+'%';
+}
+function licenseName(u){
+  u=String(u||'');if(!u)return '';
+  if(/publicdomain|\/zero\//i.test(u))return t('mPD');
+  var m=u.match(/creativecommons\.org\/licenses\/([a-z-]+)\/?([\d.]+)?/i);
+  if(m)return 'CC '+m[1].toUpperCase()+(m[2]?' '+m[2]:'');
+  return u.replace(/^https?:\/\//,'').replace(/\/$/,'');
+}
+function showPlain(){trackEl.style.display='';subEl.style.display='';metaEl.hidden=true}
+function renderMeta(){
+  metaTime=metaBar=null;
+  if(state<3||loading||stat||!current){showPlain();return}
+  var f=(current.list&&current.list[current.idx])||{};
+  metaEl.textContent='';
+  var bar=document.createElement('div');bar.className='mbar';var bi=document.createElement('i');bar.appendChild(bi);metaEl.appendChild(bar);metaBar=bi;
+  function line(){var d=document.createElement('div');d.className='mline';metaEl.appendChild(d);return d}
+  function part(d,txt,cls){var sp=document.createElement('span');sp.textContent=txt;sp.title=txt;if(cls)sp.className=cls;d.appendChild(sp);return sp}
+  var l1=line();
+  metaTime=part(l1,'0:00','mt');
+  var ar=current.creator||f.artist;if(ar)part(l1,ar,'ma');
+  part(l1,current.title);
+  var l2=line();
+  if(current.list&&current.list.length>1)part(l2,t('mTrack')+' '+(current.idx+1)+' '+t('mOf')+' '+current.list.length,'mk');
+  if(pendingPlay)part(l2,t('tapPlay'));
+  if(current.doc&&current.doc.identifier){
+    var a=document.createElement('a');a.id='mSrc';a.target='_blank';a.rel='noopener';
+    a.href='https://archive.org/details/'+encodeURIComponent(current.doc.identifier);
+    a.textContent=t('mSrc')+' ↗';
+    a.addEventListener('click',function(e){e.stopPropagation()});
+    var w=document.createElement('span');w.className='mk';w.appendChild(a);l2.appendChild(w);
+  }
+  trackEl.style.display='none';subEl.style.display='none';metaEl.hidden=false;
+  tickMeta();
+  if(!userScrolled)scrollBottom(false);
 }
 
 /* ---------- sound effects (synthesised, works offline) ---------- */
@@ -273,17 +336,29 @@ function makeTrack(doc,list,idx,search){
   return {url:f.url,title:String(title),creator:cr?String(cr):'',search:!!search,doc:doc,list:list,idx:idx};
 }
 function bestTrack(list,qw){
-  var best=0,bs=0;
-  list.forEach(function(f,i){
-    var h=' '+noAcc(String(f.title||'')+' '+f.name.split('/').pop().replace(/\.mp3$/i,'')).replace(/[^\p{L}\p{N}]+/gu,' ')+' ',s=0;
-    qw.forEach(function(w){if(h.indexOf(' '+w)>=0)s++});
-    if(s>bs){bs=s;best=i}
-  });
-  return best;
+  var sc=list.map(function(f){
+    var h=' '+noAcc(String(f.title||'')+' '+f.name.split('/').pop().replace(/\.mp3$/i,'')).replace(/[^\p{L}\p{N}]+/gu,' ')+' ',n=0;
+    qw.forEach(function(w){if(h.indexOf(' '+w)>=0)n++});
+    return n;
+  }),bs=Math.max.apply(null,sc),c=[];
+  sc.forEach(function(n,i){if(n===bs)c.push(i)});
+  return pick(c);   /* best matches win; ties (or no match in track names) are picked at random */
+}
+function parseLen(v){if(v==null)return 0;v=String(v);if(v.indexOf(':')>=0){var s=0;v.split(':').forEach(function(n){s=s*60+(parseFloat(n)||0)});return s}var n=parseFloat(v);return isFinite(n)?n:0}
+function docMeta(md){
+  function one(x){return Array.isArray(x)?x[0]:x}
+  var subj=md.subject==null?[]:Array.isArray(md.subject)?md.subject:String(md.subject).split(/\s*[;,]\s*/),seen={},tags=[];
+  subj.forEach(function(x){x=String(x).trim();var k=x.toLowerCase();if(x&&x.length<28&&!seen[k]&&tags.length<6){seen[k]=1;tags.push(x)}});
+  var ym=String(one(md.year)||one(md.date)||'').match(/(1[5-9]\d\d|20\d\d)/),desc='';
+  var raw=md.description==null?'':(Array.isArray(md.description)?md.description.join(' '):String(md.description));
+  if(raw){try{desc=new DOMParser().parseFromString(raw,'text/html').body.textContent||''}catch(e){desc=raw.replace(/<[^>]*>/g,' ')}desc=desc.replace(/\s+/g,' ').trim();if(desc.length>600)desc=desc.slice(0,600).replace(/\s+\S*$/,'')+'…'}
+  return {album:String(one(md.title)||''),year:ym?ym[1]:'',subjects:tags,publisher:String(one(md.publisher)||''),license:String(one(md.licenseurl)||''),desc:desc};
 }
 function trackFromDoc(doc,first,start0,qw){
   return fetchJSON('https://archive.org/metadata/'+encodeURIComponent(doc.identifier)).then(function(m){
-    if(!doc.title&&m.metadata){var md=m.metadata;doc={identifier:doc.identifier,title:Array.isArray(md.title)?md.title[0]:md.title,creator:md.creator}}
+    var md=m.metadata||{};
+    if(!doc.title&&m.metadata){doc=Object.assign({},doc,{title:Array.isArray(md.title)?md.title[0]:md.title,creator:md.creator})}
+    doc.meta=docMeta(md);
     var seen={},files=(m.files||[]).filter(function(f){return /mp3/i.test(f.format||'')&&(+f.size||0)<40e6&&!/sample/i.test(f.name)});
     files.sort(function(x,y){return x.name.localeCompare(y.name,undefined,{numeric:true})});
     files=files.filter(function(f){
@@ -292,7 +367,7 @@ function trackFromDoc(doc,first,start0,qw){
     });
     if(!files.length)throw new Error('no mp3');
     var list=files.map(function(f){
-      return {name:f.name,title:f.title,url:'https://archive.org/download/'+encodeURIComponent(doc.identifier)+'/'+f.name.split('/').map(encodeURIComponent).join('/')};
+      return {name:f.name,title:f.title,length:parseLen(f.length),bitrate:f.bitrate,size:+f.size||0,artist:f.creator||f.artist||'',album:f.album||'',url:'https://archive.org/download/'+encodeURIComponent(doc.identifier)+'/'+f.name.split('/').map(encodeURIComponent).join('/')};
     });
     var si=typeof start0==='number'?Math.min(Math.max(0,start0),list.length-1):(first||start0)?(qw&&qw.length?bestTrack(list,qw):0):Math.floor(Math.random()*list.length);
     return makeTrack(doc,list,si,first);
@@ -322,16 +397,21 @@ function relScore(d,qs){
   });
   return best;
 }
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=a[i];a[i]=a[j];a[j]=x}return a}
 function rankDocs(docs,qs){
   var seen={},out=[];
   docs.forEach(function(d){if(d&&d.identifier&&!seen[d.identifier]){seen[d.identifier]=1;d._s=relScore(d,qs);d._i=out.length;out.push(d)}});
   var pos=out.filter(function(d){return d._s>0});if(pos.length)out=pos;   /* drop items that match nothing in title/creator */
   out.sort(function(x,y){return (y._s-x._s)||(x._i-y._i)});               /* ties keep popularity order */
-  return out.slice(0,40);
+  var best=out.length?out[0]._s:0,n=0;
+  while(n<out.length&&n<30&&(out[n]._s>=best*.7||n<12))n++;               /* pool of good matches: shuffled so the same search varies */
+  var res=shuffle(out.slice(0,n)).concat(out.slice(n)).slice(0,40);
+  res.best=best;return res;
 }
-function aSearch(q,rows){
-  var p=new URLSearchParams();p.set('q',q);p.append('fl[]','identifier');p.append('fl[]','title');p.append('fl[]','creator');
-  p.append('sort[]','downloads desc');p.set('rows',String(rows));p.set('page','1');p.set('output','json');
+var SORTS=['downloads desc','week desc','month desc','publicdate desc'];
+function aSearch(q,rows,sortKey){
+  var p=new URLSearchParams();p.set('q',q);p.append('fl[]','identifier');p.append('fl[]','title');p.append('fl[]','creator');p.append('fl[]','downloads');
+  p.append('sort[]',sortKey||'downloads desc');p.set('rows',String(rows));p.set('page','1');p.set('output','json');
   var u='https://archive.org/advancedsearch.php?'+p.toString();
   function go(){return fetchJSON(u).then(function(r){return (r.response&&r.response.docs)||[]})}
   return go().catch(function(){return new Promise(function(ok){setTimeout(ok,500)}).then(go)});   /* archive.org is flaky: retry once */
@@ -344,11 +424,13 @@ function searchArchive(text){
   if(key.length>1)qs.push(base+'title:("'+key.join(' ')+'")');
   qs.push(base+key.map(function(w){return '(title:('+w+') OR creator:('+w+') OR subject:('+w+'))'}).join(' AND '));
   qs.push(base+'('+key.join(' AND ')+')');
-  return Promise.all(qs.map(function(q){return aSearch(q,40).catch(function(){return null})})).then(function(rs){
+  var alt=pick(SORTS.slice(1));   /* popular items + a randomly ordered set, so each search sees a different pool */
+  var jobs=[];qs.forEach(function(q){jobs.push(aSearch(q,100,'downloads desc').catch(function(){return null}));jobs.push(aSearch(q,100,alt).catch(function(){return null}))});
+  return Promise.all(jobs).then(function(rs){
     if(rs.every(function(r){return r===null}))throw new Error('net');
     var docs=[].concat.apply([],rs.map(function(r){return r||[]}));
     if(docs.length||key.length<2)return docs;
-    return aSearch(base+'('+key.join(' OR ')+')',40);
+    return aSearch(base+'('+key.join(' OR ')+')',100,alt);
   }).then(function(docs){return rankDocs(docs,[key])});
 }
 function pickTrack(g,avoidId,start0){
@@ -376,6 +458,7 @@ function isReal(){return audio.src&&audio.src.indexOf('data:')!==0}
 audio.addEventListener('playing',function(){if(!isReal())return;playing=true;spun=true;loading=false;render()});
 audio.addEventListener('pause',function(){if(!isReal())return;playing=false;render()});
 audio.addEventListener('ended',function(){if(isReal())nextTrack()});
+['timeupdate','loadedmetadata','durationchange'].forEach(function(ev){audio.addEventListener(ev,tickMeta)});
 var pendingPlay=false;
 function resumePending(){
   if(!(pendingPlay&&current&&isReal()))return false;
@@ -569,7 +652,7 @@ $('#sForm').addEventListener('submit',function(e){
   var pTr=es?toEnglish(text):null;
   searchArchive(text).then(function(d){return {d:d}},function(){return {err:1}}).then(function(a){
     if(my!==sTok)return null;
-    var strong=a.d&&a.d.length&&a.d[0]._s>=Math.min(key0.length,2);
+    var strong=a.d&&a.d.length&&a.d.best>=Math.min(key0.length,2);
     if(strong&&!es)return {docs:a.d,qs:[key0]};
     return (pTr||toEnglish(text)).then(function(en){
       if(my!==sTok)return null;

@@ -12,16 +12,8 @@
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:#08080a}
-body{margin:0;min-height:calc(100svh + 110px);background:radial-gradient(120% 70% at 50% 0%,#1b1b20 0%,#0b0b0e 55%,#060607 100%);color:#e9e7e2;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;touch-action:manipulation;overscroll-behavior-y:none;padding:calc(env(safe-area-inset-top,0px) + 102px) 0 calc(env(safe-area-inset-bottom,0px) + 40px)}
-header{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;flex-direction:column;align-items:flex-start;gap:7px;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 10px;background:rgba(10,10,12,.62);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid rgba(255,255,255,.07)}
-.hrow{display:flex;align-items:center;gap:10px}
-.lang{display:inline-flex;align-items:center;gap:2px;padding:2px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:inherit;font:inherit;cursor:pointer;-webkit-user-select:none;user-select:none}
-.lang .opt{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 11px 0 8px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.1em;color:#8b8a86;transition:background .2s,color .2s}
-.lang .opt svg{width:18px;height:12px;display:block;flex:none;border-radius:2px;opacity:.5;transition:opacity .2s}
-.lang .opt.on{background:rgba(255,255,255,.15);color:#f3f1ec}
-.lang .opt.on svg{opacity:1}
-.lang:active .opt.on{background:rgba(255,255,255,.22)}
-.lang:focus-visible{outline:2px solid rgba(255,255,255,.5);outline-offset:2px}
+body{margin:0;min-height:calc(100svh + 110px);background:radial-gradient(120% 70% at 50% 0%,#1b1b20 0%,#0b0b0e 55%,#060607 100%);color:#e9e7e2;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;touch-action:manipulation;overscroll-behavior-y:none;padding:calc(env(safe-area-inset-top,0px) + 68px) 0 calc(env(safe-area-inset-bottom,0px) + 40px)}
+header{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 10px;background:rgba(10,10,12,.62);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid rgba(255,255,255,.07)}
 .ttl{font-size:19px;font-weight:300;letter-spacing:.14em;color:#f3f1ec}
 .ttl b{font-weight:600}
 header a{display:inline-flex;line-height:0}
@@ -89,11 +81,8 @@ html.boot .stage img,html.boot .ctrls{transition:none!important}
 </head>
 <body>
 <header>
-  <div class="hrow">
   <span class="ttl">Beo<b>Pro</b></span>
   <a href="https://easylandx.github.io" target="_blank" rel="noopener" aria-label="EasyLandX"><img class="logo" src="data:image/jpeg;base64,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" alt="EasyLandX"></a>
-  </div>
-  <button class="lang" id="bLang" type="button" role="switch" aria-checked="false" aria-label="Español / English"><span class="opt" data-l="es"><svg viewBox="0 0 750 500" aria-hidden="true"><rect width="750" height="500" fill="#AA151B"/><rect y="125" width="750" height="250" fill="#F1BF00"/></svg>ES</span><span class="opt" data-l="en"><svg viewBox="0 0 60 30" aria-hidden="true"><clipPath id="ukS"><path d="M0,0v30h60V0z"/></clipPath><clipPath id="ukT"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><g clip-path="url(#ukS)"><path d="M0,0v30h60V0z" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#ukT)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g></svg>EN</span></button>
 </header>
 
 <div class="stage st0" id="stage">
@@ -145,10 +134,10 @@ var GENRES={
 var state=0,spun=false,playing=false,loading=false,genre='Classical',token=0,current=null,unlocked=false,discTaps=0,hist=[];
 var audio=new Audio();audio.preload='none';
 var SILENT='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+var HINTS=['Tap the box to unpack','Tap to lift the turntable lid','Tap to place the record'];
 
 function buzz(n){try{if(navigator.vibrate)navigator.vibrate(n||10)}catch(e){}}
 function render(){
-  stat=null;
   stage.className='stage st'+state+(playing?' playing':'');
   el.i2.classList.toggle('on',state>=1);
   el.i3.classList.toggle('on',state>=2);
@@ -160,12 +149,12 @@ function render(){
   el.d6.classList.toggle('on',s4);
   ctrls.classList.toggle('show',state>=3);
   $('#search').classList.toggle('show',state>=3);
-  if(state<3){trackEl.textContent=t('h'+state);subEl.textContent='';}
+  if(state<3){trackEl.textContent=HINTS[state];subEl.textContent='';}
   else{
-    if(loading)trackEl.textContent=t('loading');
+    if(loading)trackEl.textContent='Loading track…';
     else if(current)trackEl.textContent=current.title;
-    else trackEl.textContent=t('idle');
-    subEl.textContent=(current&&!loading&&current.creator?current.creator+' · ':'')+(pendingPlay&&current&&!loading?t('tapPlay'):(current&&current.search?t('search'):(current&&current.shared?t('shared'):gl(genre))));
+    else trackEl.textContent='Press play or choose a genre';
+    subEl.textContent=(current&&!loading&&current.creator?current.creator+' · ':'')+(current&&current.search?'Search':(current&&current.shared?'Shared link':genre));
   }
 }
 
@@ -191,16 +180,7 @@ function makeTrack(doc,list,idx,search){
   var title=f.title||(list.length>1?nm:(doc.title||nm));
   return {url:f.url,title:String(title),creator:cr?String(cr):'',search:!!search,doc:doc,list:list,idx:idx};
 }
-function bestTrack(list,qw){
-  var best=0,bs=0;
-  list.forEach(function(f,i){
-    var h=' '+noAcc(String(f.title||'')+' '+f.name.split('/').pop().replace(/\.mp3$/i,'')).replace(/[^\p{L}\p{N}]+/gu,' ')+' ',s=0;
-    qw.forEach(function(w){if(h.indexOf(' '+w)>=0)s++});
-    if(s>bs){bs=s;best=i}
-  });
-  return best;
-}
-function trackFromDoc(doc,first,start0,qw){
+function trackFromDoc(doc,first,start0){
   return fetchJSON('https://archive.org/metadata/'+encodeURIComponent(doc.identifier)).then(function(m){
     if(!doc.title&&m.metadata){var md=m.metadata;doc={identifier:doc.identifier,title:Array.isArray(md.title)?md.title[0]:md.title,creator:md.creator}}
     var seen={},files=(m.files||[]).filter(function(f){return /mp3/i.test(f.format||'')&&(+f.size||0)<40e6&&!/sample/i.test(f.name)});
@@ -213,49 +193,20 @@ function trackFromDoc(doc,first,start0,qw){
     var list=files.map(function(f){
       return {name:f.name,title:f.title,url:'https://archive.org/download/'+encodeURIComponent(doc.identifier)+'/'+f.name.split('/').map(encodeURIComponent).join('/')};
     });
-    var si=typeof start0==='number'?Math.min(Math.max(0,start0),list.length-1):(first||start0)?(qw&&qw.length?bestTrack(list,qw):0):Math.floor(Math.random()*list.length);
+    var si=typeof start0==='number'?Math.min(Math.max(0,start0),list.length-1):(first||start0)?0:Math.floor(Math.random()*list.length);
     return makeTrack(doc,list,si,first);
   });
 }
-var SQ_STOP={and:1,or:1,not:1,no:1,nr:1,num:1,n:1,op:1,the:1,of:1,de:1,del:1,la:1,el:1,los:1,las:1,y:1,en:1,a:1,"in":1,to:1,por:1,para:1,con:1,un:1,una:1};
-function qWords(text){
-  return text.replace(/[^\p{L}\p{N}\s'-]/gu,' ').trim().split(/\s+/).map(function(w){return w.replace(/^[-']+|[-']+$/g,'')}).filter(Boolean);
-}
-function keyWords(text){
-  var all=qWords(text),k=all.filter(function(w){return !SQ_STOP[noAcc(w)]});
-  return k.length?k:all.filter(function(w){return !/^(and|or|not)$/i.test(w)});
-}
-function relScore(d,qs){
-  var c=d.creator,t=d.title;if(Array.isArray(c))c=c.join(' ');if(Array.isArray(t))t=t.join(' ');
-  var h=' '+noAcc(String(t||'')+' '+String(c||'')).replace(/[^\p{L}\p{N}]+/gu,' ')+' ',best=0;
-  qs.forEach(function(ws){var s=0;ws.forEach(function(w){if(h.indexOf(' '+noAcc(w))>=0)s++});if(s>best)best=s});
-  return best;
-}
-function rankDocs(docs,qs){
-  var seen={},out=[];
-  docs.forEach(function(d){if(d&&d.identifier&&!seen[d.identifier]){seen[d.identifier]=1;d._s=relScore(d,qs);out.push(d)}});
-  out.sort(function(x,y){return y._s-x._s});
-  return out.slice(0,40);
-}
-function aSearch(q,rows){
-  var p=new URLSearchParams();p.set('q',q);p.append('fl[]','identifier');p.append('fl[]','title');p.append('fl[]','creator');
-  p.append('sort[]','downloads desc');p.set('rows',String(rows));p.set('page','1');p.set('output','json');
-  return fetchJSON('https://archive.org/advancedsearch.php?'+p.toString()).then(function(r){return (r.response&&r.response.docs)||[]});
-}
-/* precise search: exact title phrase > each word in title/creator/subject > each word anywhere > any word;
-   results are re-ranked by how many query words appear in the item's title/creator */
 function searchArchive(text){
-  var key=keyWords(text);if(!key.length)return Promise.resolve([]);
-  var base='mediatype:(audio) AND format:(MP3) AND ',qs=[];
-  if(key.length>1)qs.push(base+'title:("'+key.join(' ')+'")');
-  qs.push(base+key.map(function(w){return '(title:('+w+') OR creator:('+w+') OR subject:('+w+'))'}).join(' AND '));
-  qs.push(base+'('+key.join(' AND ')+')');
-  return Promise.all(qs.map(function(q){return aSearch(q,40).catch(function(){return null})})).then(function(rs){
-    if(rs.every(function(r){return r===null}))throw new Error('net');
-    var docs=[].concat.apply([],rs.map(function(r){return r||[]}));
-    if(docs.length||key.length<2)return docs;
-    return aSearch(base+'('+key.join(' OR ')+')',40);
-  }).then(function(docs){return rankDocs(docs,[key])});
+  var words=text.replace(/[^\p{L}\p{N}\s'-]/gu,' ').trim().split(/\s+/).filter(Boolean);
+  if(!words.length)return Promise.resolve([]);
+  function run(op){
+    var q='mediatype:(audio) AND format:(MP3) AND ('+words.join(' '+op+' ')+')';
+    var p=new URLSearchParams();p.set('q',q);p.append('fl[]','identifier');p.append('fl[]','title');p.append('fl[]','creator');
+    p.append('sort[]','downloads desc');p.set('rows','30');p.set('page','1');p.set('output','json');
+    return fetchJSON('https://archive.org/advancedsearch.php?'+p.toString()).then(function(r){return (r.response&&r.response.docs)||[]});
+  }
+  return run('AND').then(function(d){return d.length||words.length<2?d:run('OR')});
 }
 function pickTrack(g,avoidId,start0){
   var q='mediatype:(audio) AND subject:('+GENRES[g]+') AND format:(MP3)';
@@ -300,9 +251,9 @@ function playRandom(fixed,back){
       return p&&p.then?p.then(function(){if(my===token){loading=false;render()}}):null;
     }).catch(function(err){
       if(my!==token)return;
-      if(err&&err.name==='NotAllowedError'){pendingPlay=true;loading=false;render();subEl.textContent=(current&&current.creator?current.creator+' · ':'')+t('tapPlay');return}
+      if(err&&err.name==='NotAllowedError'){pendingPlay=true;loading=false;render();subEl.textContent=(current&&current.creator?current.creator+' · ':'')+'Tap to play';return}
       if(++tries<4)attempt();
-      else{loading=false;current=null;render();setStatus('loadFail')}
+      else{loading=false;current=null;render();trackEl.textContent='Could not load a track. Check your connection.'}
     });
   })();
 }
@@ -323,10 +274,10 @@ function nextTrack(){
   if(current&&current.list&&current.idx+1<current.list.length){var nt=makeTrack(current.doc,current.list,current.idx+1,current.search);nt.shared=current.shared;playRandom(nt)}
   else playRandom();
 }
-var searchDocs=[],searchIdx=0,searchQW=[];
+var searchDocs=[],searchIdx=0;
 function albumFrom(docs,i,tries){
   var n=docs.length;
-  return trackFromDoc(docs[i%n],false,true,searchQW).then(function(t){searchIdx=i%n;t.search=true;return t}).catch(function(err){
+  return trackFromDoc(docs[i%n],false,true).then(function(t){searchIdx=i%n;t.search=true;return t}).catch(function(err){
     if(tries+1<Math.min(n,6))return albumFrom(docs,i+1,tries+1);
     throw err;
   });
@@ -455,9 +406,9 @@ function toEnglish(text){
     })
     .catch(function(){clearTimeout(timer);return dictTranslate(text)});
 }
-function firstPlayable(docs,i,qw){
-  return trackFromDoc(docs[i],true,undefined,qw).catch(function(err){
-    if(i+1<docs.length&&i<7)return firstPlayable(docs,i+1,qw);
+function firstPlayable(docs,i){
+  return trackFromDoc(docs[i],true).catch(function(err){
+    if(i+1<docs.length&&i<7)return firstPlayable(docs,i+1);
     throw err;
   });
 }
@@ -465,34 +416,25 @@ $('#sForm').addEventListener('submit',function(e){
   e.preventDefault();
   var text=qEl.value.trim();if(!text)return;
   unlock();buzz(10);qEl.blur();var my=++sTok;
-  setStatus('searching');subEl.textContent='';
-  /* search exactly what was typed (names, titles) and, in parallel, its English translation */
-  var pOrig=searchArchive(text).then(function(d){return {d:d}},function(){return {err:1}});
+  trackEl.textContent='Searching…';subEl.textContent='';
   toEnglish(text).then(function(en){
-    if(my!==sTok)return null;
-    var same=noAcc(en)===noAcc(text);
-    if(!same)setStatus('searchingFor',en);
-    var pEn=same?Promise.resolve(null):searchArchive(en).then(function(d){return {d:d}},function(){return {err:1}});
-    return Promise.all([pOrig,pEn]).then(function(r){
-      if(my!==sTok)return null;
-      var a=r[0],b=r[1];
-      if(a.err&&(!b||b.err))throw new Error('net');
-      var qs=[keyWords(text)];if(!same)qs.push(keyWords(en));
-      return {docs:rankDocs([].concat(a.d||[],(b&&b.d)||[]),qs),qs:qs};
+    if(my!==sTok)return [];
+    trackEl.textContent='Searching “'+en+'”…';
+    return searchArchive(en).then(function(d){
+      return d.length||noAcc(en)===noAcc(text)?d:searchArchive(text);
     });
-  }).then(function(res){
-    if(!res||my!==sTok)return;
-    if(!res.docs.length){setStatus('none');return}
-    var qw=[];res.qs.forEach(function(ws){ws.forEach(function(w){var n=noAcc(w);if(qw.indexOf(n)<0)qw.push(n)})});
-    discTaps=1;searchDocs=res.docs;searchIdx=0;searchQW=qw;
-    playRandom(firstPlayable(res.docs,0,qw));
-  }).catch(function(){if(my===sTok)setStatus('sFail')});
+  }).then(function(docs){
+    if(my!==sTok)return;
+    if(!docs.length){trackEl.textContent='No tracks found. Try other words.';return}
+    discTaps=1;searchDocs=docs;searchIdx=0;
+    playRandom(firstPlayable(docs,0));
+  }).catch(function(){if(my===sTok)trackEl.textContent='Search failed. Check your connection.'});
 });
 
 /* ---------- genre sheet ---------- */
 var sheet=$('#sheet'),scrim=$('#scrim'),list=$('#list');
 Object.keys(GENRES).forEach(function(g){
-  var b=document.createElement('button');b.type='button';b.textContent=gl(g);b.dataset.g=g;
+  var b=document.createElement('button');b.type='button';b.textContent=g;b.dataset.g=g;
   b.addEventListener('click',function(){
     genre=g;discTaps=1;buzz(14);unlock();closeSheet();markGenre();playRandom();
   });
@@ -527,11 +469,11 @@ function buildShareImage(){
 function shareLink(){return SITE+'?a='+encodeURIComponent(current.doc.identifier)+'&n='+current.idx}
 function shareText(){
   var name=current.title+(current.creator?' – '+current.creator:'');
-  return t('share')+'\n\n'+name+'\n'+shareLink();
+  return 'Listen on BeoPro easylandx.github.io/beopro\n\n'+name+'\n'+shareLink();
 }
 var IS_MOBILE=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 function doShareWA(){
-  if(!(current&&current.doc&&current.doc.identifier)||loading){toast(t('playFirst'));return}
+  if(!(current&&current.doc&&current.doc.identifier)||loading){toast('Play a song first');return}
   buzz(12);
   var text=shareText(),enc=encodeURIComponent(text);
   if(IS_MOBILE){
@@ -544,9 +486,9 @@ function doShareWA(){
   var mac=/Mac/i.test(navigator.platform),key=mac?'⌘V':'Ctrl+V';
   if(shareImg&&navigator.clipboard&&window.ClipboardItem){
     navigator.clipboard.write([new ClipboardItem({'image/png':shareImg.png})])
-      .then(function(){toast(t('copied',key),7000)})
-      .catch(function(){toast(t('copyFail'),6000)});
-  }else toast(t('copyFail'),6000);
+      .then(function(){toast('Image copied. In WhatsApp Web press '+key+' to paste it',7000)})
+      .catch(function(){toast('Could not copy the image to the clipboard',6000)});
+  }else toast('Could not copy the image to the clipboard',6000);
   window.open('https://web.whatsapp.com/send?text='+enc,'_blank','noopener');
 }
 $('#bWa').addEventListener('click',doShareWA);
@@ -574,33 +516,6 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastT<320
 ['gesturestart','gesturechange','gestureend'].forEach(function(ev){document.addEventListener(ev,function(e){e.preventDefault()})});
 document.addEventListener('dblclick',function(e){e.preventDefault()});
 
-var I18N={
-en:{h0:'Tap the box to unpack',h1:'Tap to lift the turntable lid',h2:'Tap to place the record',loading:'Loading track…',idle:'Press play or choose a genre',search:'Search',shared:'Shared link',tapPlay:'Tap to play',loadFail:'Could not load a track. Check your connection.',searching:'Searching…',searchingFor:'Searching “{0}”…',none:'No tracks found. Try other words.',sFail:'Search failed. Check your connection.',playFirst:'Play a song first',copied:'Image copied. In WhatsApp Web press {0} to paste it',copyFail:'Could not copy the image to the clipboard',share:'Listen on BeoPro easylandx.github.io/beopro',rew:'Rewind',fwd:'Fast forward',rewA:'Rewind (tap 10s, hold to scan)',fwdA:'Fast forward (tap 10s, hold to scan)',prev:'Previous track',play:'Play',stop:'Stop',next:'Next track',album:'Next album',open:'Open track in new tab',genre:'Choose genre',searchB:'Search',searchPh:'Search any track…',searchA:'Search tracks',wa:'Share on WhatsApp',sheet:'Genre'},
-es:{h0:'Toca la caja para abrirla',h1:'Toca para levantar la tapa del tocadiscos',h2:'Toca para colocar el disco',loading:'Cargando pista…',idle:'Pulsa play o elige un género',search:'Búsqueda',shared:'Enlace compartido',tapPlay:'Toca para reproducir',loadFail:'No se pudo cargar una pista. Comprueba tu conexión.',searching:'Buscando…',searchingFor:'Buscando “{0}”…',none:'No se encontraron pistas. Prueba con otras palabras.',sFail:'La búsqueda falló. Comprueba tu conexión.',playFirst:'Reproduce una canción primero',copied:'Imagen copiada. En WhatsApp Web pulsa {0} para pegarla',copyFail:'No se pudo copiar la imagen al portapapeles',share:'Escucha en BeoPro easylandx.github.io/beopro',rew:'Rebobinar',fwd:'Avance rápido',rewA:'Rebobinar (toca: 10 s, mantén: explorar)',fwdA:'Avance rápido (toca: 10 s, mantén: explorar)',prev:'Pista anterior',play:'Reproducir',stop:'Detener',next:'Pista siguiente',album:'Álbum siguiente',open:'Abrir pista en una pestaña nueva',genre:'Elegir género',searchB:'Buscar',searchPh:'Buscar cualquier pista…',searchA:'Buscar pistas',wa:'Compartir en WhatsApp',sheet:'Género'}
-};
-var GENRE_ES={"Rock":"Rock","Alternative & Indie":"Alternativa e Indie","Punk & Metal":"Punk y Metal","Electronic & Dance":"Electrónica y Dance","Ambient & Drone":"Ambient y Drone","Techno & House":"Techno y House","Hip-Hop & Rap":"Hip-Hop y Rap","R&B":"R&B","Soul & Funk":"Soul y Funk","Disco":"Disco","Pop":"Pop","Jazz":"Jazz","Blues":"Blues","Ragtime & Swing":"Ragtime y Swing","Folk":"Folk","Country & Western":"Country y Western","Bluegrass & Americana":"Bluegrass y Americana","Classical":"Clásica","Opera & Choral":"Ópera y Coral","World & International":"Música del mundo","Latin":"Latina","Reggae & Dub":"Reggae y Dub","Soundtracks & Video Game Music":"Bandas sonoras y videojuegos","Broadway & Musicals":"Broadway y Musicales","Experimental & Avant-Garde":"Experimental y Vanguardia","Noise & Industrial":"Noise e Industrial","Gospel & Religious":"Gospel y Religiosa","Holiday & Christmas":"Fiestas y Navidad","Children's Music":"Música infantil","Comedy & Cabaret":"Comedia y Cabaret"};
-var lang='';try{lang=localStorage.getItem('beopro.lang')||''}catch(e){}
-if(lang!=='es'&&lang!=='en')lang=/^es/i.test(navigator.language||'')?'es':'en';
-function t(k,a){var s=I18N[lang][k];return a===undefined?s:s.replace('{0}',a)}
-function gl(g){return lang==='es'&&GENRE_ES[g]||g}
-var stat=null;
-function setStatus(k,a){stat={k:k,a:a};trackEl.textContent=t(k,a)}
-var TIPS={bRew:['rew','rewA'],bFwd:['fwd','fwdA'],bPrev:['prev','prev'],bPlay:['play','play'],bStop:['stop','stop'],bNext:['next','next'],bAlbum:['album','album'],bOpen:['open','open'],bGenre:['genre','genre'],sBtn:['searchB','searchB'],bWa:['wa','wa']};
-function applyLang(){
-  document.documentElement.lang=lang;
-  Object.keys(TIPS).forEach(function(id){var b=$('#'+id);b.setAttribute('data-tip',t(TIPS[id][0]));b.setAttribute('aria-label',t(TIPS[id][1]))});
-  qEl.placeholder=t('searchPh');qEl.setAttribute('aria-label',t('searchA'));
-  $('#sheet h2').textContent=t('sheet');$('#sheet').setAttribute('aria-label',t('sheet'));
-  [].forEach.call(list.children,function(b){b.textContent=gl(b.dataset.g)});
-  [].forEach.call($('#bLang').querySelectorAll('.opt'),function(o){o.classList.toggle('on',o.dataset.l===lang)});
-  $('#bLang').setAttribute('aria-checked',lang==='en'?'true':'false');
-}
-function setLang(l){
-  lang=l;try{localStorage.setItem('beopro.lang',l)}catch(e){}
-  var s=stat;applyLang();render();if(s)setStatus(s.k,s.a);
-}
-$('#bLang').addEventListener('click',function(e){e.stopPropagation();buzz(10);setLang(lang==='es'?'en':'es')});
-applyLang();
 render();
 })();
 </script>
